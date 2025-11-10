@@ -21,7 +21,8 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      {/* FIX: Add the basename prop here. It must match the base in vite.config.js */}
+      <BrowserRouter basename="/surface-roughness"> 
         <SidebarProvider>
           <div className="min-h-screen flex w-full">
             <AppSidebar />
@@ -34,14 +35,15 @@ const App = () => (
               </header>
               <div className="flex-1">
                 <Routes>
-                  <Route path="/" element={<TitlePage />} />
+                  {/* These paths are now relative to /surface-roughness/ */}
+                  <Route path="/" element={<TitlePage />} /> 
                   <Route path="/pre-experiment" element={<PreExperimentPage />} />
                   <Route path="/introduction" element={<IntroductionPage />} />
                   <Route path="/experiment" element={<ExperimentPage />} />
                   <Route path="/calculation" element={<CalculationPage />} />
                   <Route path="/quiz" element={<QuizPage />} />
                   <Route path="/conclusion" element={<ConclusionPage />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  {/* The catch-all * route must be last */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>

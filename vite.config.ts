@@ -5,6 +5,10 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  // 🎯 ADD THIS CRITICAL 'base' PROPERTY 
+  // Replace 'your-repo-name' with the exact name of your GitHub repository.
+  base: '/surface-roughness/', 
+  
   server: {
     host: "::",
     port: 8080,
