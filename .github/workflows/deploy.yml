@@ -3,7 +3,7 @@ name: Deploy Vite App to GitHub Pages
 on:
   push:
     branches:
-      - main # Trigger the workflow when changes are pushed to the main branch
+      - master # Trigger the workflow when changes are pushed to the main branch
   workflow_dispatch: # Allows manual trigger from the GitHub UI
 
 jobs:
