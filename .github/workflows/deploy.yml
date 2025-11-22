@@ -3,11 +3,15 @@ name: Deploy Vite App to GitHub Pages
 on:
   push:
     branches:
-      - master  # Trigger the workflow when changes are pushed to the main branch
+      - master  # ⚠️ Ensure this matches your default branch (main or master)
   workflow_dispatch: # Allows manual trigger from the GitHub UI
 
 jobs:
   build-and-deploy:
+    # ⬇️ THIS IS THE NEW CONDITION ⬇️
+    # The job only runs if the commit message contains the word "build" (case-insensitive)
+    if: contains(github.event.head_commit.message, 'build')
+
     runs-on: ubuntu-latest
 
     steps:
@@ -27,15 +31,16 @@ jobs:
         run: npm ci
 
       - name: 🏗️ Build Vite Static Site
-        # This runs your 'npm run build' script
-        run: npm run build
+        run: |
+          npm run build
+          touch dist/.nojekyll  # 👈 Safely prevents GitHub Pages from ignoring asset files
 
       - name: 🚀 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           # This secret is automatically provided by GitHub
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # Source directory: The built output
+          # Source directory: The built output (Vite defaults to 'dist')
           publish_dir: ./dist
           # Destination branch for GitHub Pages
           publish_branch: gh-pages

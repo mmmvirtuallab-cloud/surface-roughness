@@ -2,7 +2,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+// 1. Import HashRouter instead of BrowserRouter
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import TitlePage from "./pages/TitlePage";
@@ -21,8 +22,9 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      {/* FIX: Add the basename prop here. It must match the base in vite.config.js */}
-      <BrowserRouter basename="/surface-roughness"> 
+      
+      {/* 2. Use HashRouter. No 'basename' prop is needed anymore! */}
+      <HashRouter>
         <SidebarProvider>
           <div className="min-h-screen flex w-full">
             <AppSidebar />
@@ -35,7 +37,7 @@ const App = () => (
               </header>
               <div className="flex-1">
                 <Routes>
-                  {/* These paths are now relative to /surface-roughness/ */}
+                  {/* Routes work normally relative to the hash */}
                   <Route path="/" element={<TitlePage />} /> 
                   <Route path="/pre-experiment" element={<PreExperimentPage />} />
                   <Route path="/introduction" element={<IntroductionPage />} />
@@ -43,14 +45,14 @@ const App = () => (
                   <Route path="/calculation" element={<CalculationPage />} />
                   <Route path="/quiz" element={<QuizPage />} />
                   <Route path="/conclusion" element={<ConclusionPage />} />
-                  {/* The catch-all * route must be last */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
             </main>
           </div>
         </SidebarProvider>
-      </BrowserRouter>
+      </HashRouter>
+      
     </TooltipProvider>
   </QueryClientProvider>
 );
